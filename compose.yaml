@@ -1,0 +1,49 @@
+services:
+  navigation:
+    build: .
+    restart: unless-stopped
+    environment:
+      NAV_DOMAIN: ${NAV_DOMAIN:?请在 .env 填写导航网站域名}
+      NAV_AI_BASE_URL: ${NAV_AI_BASE_URL:-}
+      NAV_AI_MODEL: ${NAV_AI_MODEL:-}
+      NAV_AI_API_KEY: ${NAV_AI_API_KEY:-}
+    volumes:
+      - navigation_data:/data
+    networks:
+      - backend
+      - edge
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    init: true
+    mem_limit: 256m
+    pids_limit: 100
+  https:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      NAV_DOMAIN: ${NAV_DOMAIN:?请在 .env 填写导航网站域名}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - backend
+      - edge
+    depends_on:
+      - navigation
+networks:
+  backend:
+    internal: true
+  edge:
+volumes:
+  navigation_data:
+  caddy_data:
+  caddy_config:

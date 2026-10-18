@@ -1,0 +1,13 @@
+{$NAV_DOMAIN} {
+    encode gzip
+    header Strict-Transport-Security "max-age=31536000"
+    request_body {
+        max_size 1MB
+    }
+    reverse_proxy navigation:8765 {
+        transport http {
+            dial_timeout 5s
+            response_header_timeout 15s
+        }
+    }
+}

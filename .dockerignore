@@ -1,0 +1,7 @@
+*
+!app.py
+!site_metadata.py
+!site_ai.py
+!site_search.py
+!web/
+!web/**

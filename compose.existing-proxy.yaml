@@ -1,0 +1,29 @@
+# 适用于宿主机已有 Nginx/Caddy/宝塔反向代理的服务器。
+# 仅监听宿主机回环地址；不直接暴露 18765 端口。
+# 若反向代理本身位于容器中，应先检查其网络配置，不直接套用此文件。
+name: private-nav
+services:
+  navigation:
+    build: .
+    restart: unless-stopped
+    environment:
+      NAV_DOMAIN: ${NAV_DOMAIN:?请在 .env 填写导航网站域名}
+      NAV_AI_BASE_URL: ${NAV_AI_BASE_URL:-}
+      NAV_AI_MODEL: ${NAV_AI_MODEL:-}
+      NAV_AI_API_KEY: ${NAV_AI_API_KEY:-}
+    ports:
+      - "127.0.0.1:18765:8765"
+    volumes:
+      - navigation_data:/data
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    init: true
+    mem_limit: 256m
+    pids_limit: 100
+volumes:
+  navigation_data:
