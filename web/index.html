@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="我的私人导航">
+  <title>我的私人导航</title><link rel="icon" href="/icon.svg?v=silver-mark-2" type="image/svg+xml"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=north-08-silver"><link rel="stylesheet" href="/style.css?v=20261018-17"><script src="/app.js?v=20261018-6" defer></script>
+</head>
+<body>
+  <div id="login" class="login-wrap" hidden>
+    <section class="login-card"><img class="brand-icon" src="/icon.svg?v=silver-mark-2" alt="" width="58" height="58"><span class="eyebrow">Private space</span><h1>你的私人入口。</h1><p class="muted">在自己的设备上，连接常用的网站。</p>
+      <form id="login-form"><label>设备名称<input name="name" maxlength="40" placeholder="例如：我的 Mac 或我的 iPhone" required autocomplete="off"></label><label>一次性配对码<input name="code" placeholder="粘贴配对码" required autocomplete="off" autocapitalize="none" spellcheck="false"></label><button class="primary wide" type="submit">授权此浏览器 <span>↗</span></button></form>
+      <p class="helper">首次使用时输入网站部署时生成的配对码。添加 iPhone 时，在已授权页面的「设备」中生成新码。配对码 10 分钟有效。</p><p class="helper">仅授权你自己的浏览器；不要使用无痕浏览。清除网站数据后需要重新配对。</p>
+    </section>
+  </div>
+  <div id="dashboard" class="shell" hidden>
+    <header class="site-header"><div class="header-inner"><a class="brand header-pair" href="/" aria-label="首页"><span lang="en">Home</span><span class="top-divider" aria-hidden="true"></span><span>首页</span></a><a class="top-label header-pair" id="workspace-link" href="#all-sites"><span lang="en">Workspace</span><span class="top-divider" aria-hidden="true"></span><span>工作台</span></a><button class="header-pair" id="devices-button"><span lang="en">Devices</span><span class="top-divider" aria-hidden="true"></span><span>设备</span></button></div></header>
+    <main>
+      <section class="intro"><div><div class="intro-heading"><span class="eyebrow">Everything finds its place</span><h1><span>万象有序</span> <span>方寸从容</span></h1></div><p class="muted"><span>服务器</span> <span>API 和工具</span> <span>都有自己的位置</span></p></div><button id="add-button" class="primary">＋ 添加网址</button></section>
+      <section class="workspace"><div class="workspace-inner"><div class="category-bar"><span class="section-label">工作空间</span><nav id="categories" aria-label="网址分类"></nav></div>
+      <div class="tools"><div class="search-area"><form id="search-form" class="search" role="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="搜索名称，或描述你想找的网站…" aria-label="搜索网址" aria-describedby="search-status" maxlength="300" autocomplete="off"><kbd>/</kbd><button id="ai-search-button" type="submit" disabled>AI 查找</button></form><p id="search-status" class="search-status" role="status" aria-live="polite" hidden></p></div><div class="backup-tools"><button id="export-button" class="text-button">导出</button><button id="import-button" class="text-button">导入</button><input type="file" id="import-file" accept=".json,application/json" hidden></div></div>
+      <section class="collection" id="all-sites"><div class="collection-heading"><h2 id="collection-title" tabindex="-1">全部网址</h2><span id="count" class="count">0 个入口</span></div><div id="cards" class="cards"></div><div id="empty" class="empty" hidden><div class="empty-icon">↗</div><h2 id="empty-title">给常用入口一个家</h2><p id="empty-description">先添加一个服务器控制台、API 管理页或 CLI 工具页面。</p><button id="empty-add" class="primary">＋ 添加第一个网址</button></div></section>
+      <div class="privacy-note"><span class="private-dot"></span>仅已授权浏览器可访问<span>入口集中，事情更简单。</span></div></div></section>
+      <footer>你的私人工作台<span>网站密码由苹果「密码」App 等密码管理器保管。</span></footer>
+    </main>
+  </div>
+  <dialog id="edit-dialog"><form id="bookmark-form"><div class="dialog-heading"><div><span class="eyebrow">Your shortcut</span><h2 id="edit-title">添加网址</h2></div><button type="button" class="close" data-close aria-label="关闭">×</button></div><input name="id" type="hidden"><label>网址<input name="url" type="url" inputmode="url" placeholder="粘贴网址，例如 https://example.com" maxlength="2048" required autocapitalize="none" spellcheck="false" aria-describedby="identify-status"></label><div class="identify-row"><p id="identify-status" class="helper" role="status" aria-live="polite">粘贴网址后，自动填写名称和分类</p><button type="button" id="identify-button" class="secondary">AI 识别</button></div><label>名称 <span class="optional">自动填写，可修改</span><input name="title" placeholder="识别后自动填写，也可以手动输入" maxlength="100" required></label><label>分类<input name="category" list="category-options" maxlength="40" placeholder="自动推荐，也可以自定义" required><datalist id="category-options"></datalist></label><label>简介 / 备注 <span class="optional">自动生成，可修改</span><textarea name="note" placeholder="自动生成网站用途，也可以填写自己的备注，不填写密码和密钥" maxlength="500" rows="3"></textarea></label><label class="checkbox"><input name="pinned" type="checkbox">置顶这个入口</label><div class="dialog-actions"><button type="button" class="secondary" data-close>取消</button><button type="submit" class="primary">保存网址 ↗</button></div></form></dialog>
+  <dialog id="devices-dialog"><div class="dialog-heading"><div><span class="eyebrow">Your devices</span><h2>已授权浏览器</h2></div><button class="close" data-close aria-label="关闭">×</button></div><p class="muted compact">最多两台浏览器。请在 Mac 和 iPhone 上各固定使用一个浏览器。</p><div id="device-list"></div><button id="pair-button" class="primary wide">生成 iPhone 配对码</button><div id="pair-result" hidden><label>一次性配对码<input id="pair-code" readonly aria-label="一次性配对码"></label><button id="copy-code" class="secondary">复制配对码</button><p class="helper">10 分钟内在另一台设备的同一导航页输入。用过即失效。此码等同于访问授权，请勿分享。</p></div><p class="helper">在电脑和 iPhone 上访问同一个网站地址，即可使用同一份网址收藏。</p></dialog>
+  <div id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>
